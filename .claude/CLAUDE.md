@@ -56,6 +56,8 @@ proposal-generator/
 │   └── superpowers/
 │       ├── specs/             # design documents
 │       └── plans/             # implementation plans
+├── .claude/
+│   └── CLAUDE.md              # this file — AI context for every session
 ├── .github/workflows/ci.yml
 ├── docker-compose.yml
 └── .env.example
@@ -122,6 +124,7 @@ RAZORPAY_KEY_SECRET=
 RAZORPAY_WEBHOOK_SECRET=
 
 # App
+FRONTEND_URL=http://localhost:3000
 NEXT_PUBLIC_API_URL=http://localhost:8000
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
