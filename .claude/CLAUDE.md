@@ -1,32 +1,25 @@
-# CLAUDE.md — Proposal Generator Platform
+# Proposal Generator
 
-AI-powered proposal generation SaaS. Users log in, describe a project in 1-2 paragraphs, get a full AI-drafted proposal, share it as a public URL, and collect e-signature + Razorpay payment from the client.
+AI-powered proposal SaaS. Users log in → describe a project → AI drafts a full proposal → client gets a public URL → signs + pays via Razorpay.
 
-Full design spec: `docs/superpowers/specs/2026-04-07-proposal-generator-design.md`
-Implementation plan: `docs/superpowers/plans/wondrous-juggling-planet.md` (stored in Claude plans dir)
-
----
-
-## Quick Reference
-
-| Topic | File |
-|---|---|
-| Tech stack | `.claude/rules/stack.md` |
-| Project structure | `.claude/rules/project-structure.md` |
-| Backend conventions | `.claude/rules/backend-conventions.md` |
-| Frontend conventions | `.claude/rules/frontend-conventions.md` |
-| Database schema | `.claude/rules/data-model.md` |
-| Environment variables | `.claude/rules/environment.md` |
-
----
+- Repo: https://github.com/rajandass/proposal-generator
+- Design spec: @docs/superpowers/specs/2026-04-07-proposal-generator-design.md
 
 ## Key Facts
 
 - **Multi-tenant** — each user sees only their own proposals
-- **Public proposal pages** — `/p/[token]` requires no auth (client-facing)
 - **Proposal status flow** — `draft → published → signed → paid`
-- **Payment** — Razorpay (India), single account, INR, one-time
+- **Public pages** — `/p/[token]` requires no auth (client-facing)
 - **AI** — swappable via `AI_PROVIDER=openai|anthropic` in `.env`
-- **Signature** — client can type (cursive font) or draw (canvas)
-- **Success** — confetti animation after payment at `/p/[token]/success`
-- **Platform-independent** — fully Dockerized, deploy anywhere
+- **Payment** — Razorpay (India), INR, one-time, single account
+- **Signature** — client types (cursive font) or draws (canvas)
+- **Success** — confetti animation at `/p/[token]/success` after payment
+
+## Rules
+
+@.claude/rules/stack.md
+@.claude/rules/project-structure.md
+@.claude/rules/backend-conventions.md
+@.claude/rules/frontend-conventions.md
+@.claude/rules/data-model.md
+@.claude/rules/environment.md

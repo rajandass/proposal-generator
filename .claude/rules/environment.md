@@ -1,10 +1,11 @@
 ---
-description: Environment variables and local development setup
+paths:
+  - ".env*"
+  - "docker-compose.yml"
+  - "docker-compose*.yml"
 ---
 
 # Environment Variables
-
-Copy `.env.example` to `.env` and fill in all values before running locally.
 
 ```env
 # Supabase
@@ -17,35 +18,30 @@ AI_PROVIDER=openai
 OPENAI_API_KEY=sk-...
 ANTHROPIC_API_KEY=sk-ant-...
 
-# Razorpay (use test keys for dev: rzp_test_...)
+# Razorpay (use rzp_test_... keys for dev)
 RAZORPAY_KEY_ID=rzp_test_...
 RAZORPAY_KEY_SECRET=your-secret
 RAZORPAY_WEBHOOK_SECRET=your-webhook-secret
 
-# App URLs
+# App
 FRONTEND_URL=http://localhost:3000
 NEXT_PUBLIC_API_URL=http://localhost:8000
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-## Running Locally
+## Local Dev
 
 ```bash
 docker-compose up --build
+# Frontend: http://localhost:3000
+# Backend:  http://localhost:8000
+# Swagger:  http://localhost:8000/docs
 ```
 
-| Service | URL |
-|---|---|
-| Frontend | http://localhost:3000 |
-| Backend API | http://localhost:8000 |
-| API Docs (Swagger) | http://localhost:8000/docs |
+## GitHub Actions Secrets
 
-## CI/CD — GitHub Actions Secrets
-
-Add these in GitHub → Settings → Secrets and variables → Actions:
-
-| Secret | Description |
+| Secret | Value |
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |

@@ -1,92 +1,55 @@
 ---
-description: Database schema, proposal content structure, and data flow
+paths:
+  - "backend/db/**/*"
+  - "backend/models/**/*"
 ---
 
 # Data Model
 
-## Tables (Supabase / PostgreSQL)
+## Tables
 
 ### `user_profiles`
-Stores company info pre-filled into every new proposal.
 ```sql
-id           uuid PK → auth.users
-company_name text
-address      text
-phone        text
-email        text
-about_blurb  text   -- used for "About Us" proposal section
-updated_at   timestamptz
+id uuid PK → auth.users | company_name | address | phone | email | about_blurb | updated_at
 ```
-Created on first login via `/onboarding`. Editable via `/settings`.
+Created at `/onboarding`. Editable at `/settings`. Pre-fills `about_us` + `contact` in new proposals.
 
 ### `proposals`
 ```sql
-id           uuid PK
-user_id      uuid → auth.users
-token        text UNIQUE   -- public URL slug (nanoid, 12 chars)
-client_name  text
-client_email text
-title        text
-status       text          -- draft | published | signed | paid
-price        numeric       -- in INR
-content      jsonb         -- all 6 AI-generated sections (see below)
-created_at   timestamptz
-updated_at   timestamptz
+id uuid PK | user_id → auth.users | token text UNIQUE (nanoid 12 chars)
+client_name | client_email | title | price numeric (INR)
+status: draft | published | signed | paid
+content jsonb | created_at | updated_at
 ```
 
 ### `signatures`
 ```sql
-id             uuid PK
-proposal_id    uuid → proposals
-signer_name    text
-signer_email   text
-signature_data text   -- base64 PNG (drawn) or plain text (typed)
-signature_type text   -- "drawn" | "typed"
-signed_at      timestamptz
-ip_address     text
+id uuid PK | proposal_id → proposals | signer_name | signer_email
+signature_data text (base64 PNG or plain text) | signature_type: drawn | typed
+signed_at | ip_address
 ```
 
 ### `payments`
 ```sql
-id                  uuid PK
-proposal_id         uuid → proposals
-razorpay_order_id   text
-razorpay_payment_id text
-amount              numeric   -- in INR
-currency            text      -- "INR"
-status              text      -- pending | succeeded | failed
-paid_at             timestamptz
+id uuid PK | proposal_id → proposals
+razorpay_order_id | razorpay_payment_id
+amount numeric (INR) | currency text | status: pending | succeeded | failed | paid_at
 ```
 
 ## Proposal Content JSONB Schema
-
-The `content` field stores all 6 template sections:
-
 ```json
 {
   "executive_summary": "string",
-  "scope_of_work": {
-    "deliverables": ["string"],
-    "resources": ["string"]
-  },
-  "timeline": [
-    { "phase": "string", "duration": "string" }
-  ],
-  "expenditure": [
-    { "description": "string", "cost": number, "tax_rate": number }
-  ],
+  "scope_of_work": { "deliverables": ["string"], "resources": ["string"] },
+  "timeline": [{ "phase": "string", "duration": "string" }],
+  "expenditure": [{ "description": "string", "cost": number, "tax_rate": number }],
   "about_us": "string",
-  "contact": {
-    "company": "string",
-    "address": "string",
-    "phone": "string",
-    "email": "string"
-  }
+  "contact": { "company": "string", "address": "string", "phone": "string", "email": "string" }
 }
 ```
 
 ## RLS Policies
-- `user_profiles`: users read/write their own row only
-- `proposals`: users CRUD their own; anyone can read `published/signed/paid` by token
-- `signatures`: anyone can insert; only proposal owner can read
-- `payments`: only proposal owner can read; webhook updates via service role
+- `user_profiles`: own row only
+- `proposals`: own rows + public read for `published/signed/paid` by token
+- `signatures`: anyone inserts; owner reads
+- `payments`: owner reads; service role updates via webhook

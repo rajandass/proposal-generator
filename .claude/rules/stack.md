@@ -1,7 +1,3 @@
----
-description: Technology stack for the proposal-generator platform
----
-
 # Tech Stack
 
 | Layer | Technology |
@@ -13,9 +9,5 @@ description: Technology stack for the proposal-generator platform
 | Payments | Razorpay (India, one-time payment, single account) |
 | Containers | Docker + docker-compose |
 | CI/CD | GitHub Actions → GHCR (ghcr.io/rajandass) |
-| Version Control | Git — repo at https://github.com/rajandass/proposal-generator |
 
-## Platform Independence
-
-Both services are Dockerized with no cloud-provider-specific dependencies.
-Can deploy to AWS, GCP, Railway, Render, Fly.io, or any VPS.
+Both services are fully Dockerized — no cloud-provider lock-in. Deploy to AWS, GCP, Railway, Render, Fly.io, or any VPS.
