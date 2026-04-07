@@ -23,3 +23,11 @@ AI-powered proposal SaaS. Users log in → describe a project → AI drafts a fu
 @.claude/rules/frontend-conventions.md
 @.claude/rules/data-model.md
 @.claude/rules/environment.md
+@.claude/rules/testing.md
+@.claude/rules/git-conventions.md
+@.claude/rules/security.md
+
+## Agents
+
+- `backend-dev` — FastAPI specialist (endpoints, AI, Razorpay, tests)
+- `frontend-dev` — Next.js specialist (App Router, Tailwind, Supabase SSR, Razorpay checkout)
