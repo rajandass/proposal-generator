@@ -2,6 +2,7 @@ import os
 import hmac
 import hashlib
 import json
+from datetime import datetime, timezone
 import razorpay
 from fastapi import APIRouter, HTTPException, Request
 from db.client import get_supabase
@@ -107,7 +108,7 @@ async def razorpay_webhook(request: Request):
     supabase.table("payments").update({
         "status": "succeeded",
         "razorpay_payment_id": razorpay_payment_id,
-        "paid_at": "now()",
+        "paid_at": datetime.now(timezone.utc).isoformat(),
     }).eq("razorpay_order_id", order_id).execute()
 
     # Update proposal status
