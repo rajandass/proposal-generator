@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { notFound } from "next/navigation";
 import ProposalView from "@/components/ProposalView";
 import SignPayButton from "@/components/SignPayButton";
