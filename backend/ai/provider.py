@@ -90,5 +90,9 @@ Project Brief:
         messages=[{"role": "user", "content": user_message}]
     )
 
-    content_dict = json.loads(message.content[0].text)
+    text = message.content[0].text
+    # Strip markdown code fences if Claude wraps JSON in them
+    if "```" in text:
+        text = text[text.find("{"):text.rfind("}") + 1]
+    content_dict = json.loads(text)
     return ProposalContent(**content_dict)

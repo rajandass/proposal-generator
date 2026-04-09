@@ -27,6 +27,10 @@ AI-powered proposal SaaS. Users log in → describe a project → AI drafts a fu
 @.claude/rules/git-conventions.md
 @.claude/rules/security.md
 
+## Memory
+
+Project memory lives at `.claude/memory/` in this repo. Always read and write memory files there — not the default `~/.claude/projects/...` path.
+
 ## Agents
 
 - `backend-dev` — FastAPI specialist (endpoints, AI, Razorpay, tests)
